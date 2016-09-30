@@ -19,7 +19,7 @@ public class Maze {
 
 	public void GenMaze() {
 		this.initalizeGrid();
-		boolean[][] gridCellsState = new boolean[2][2];
+		boolean[][] gridCellsState = new boolean[width][height];
 		boolean[] neighbourCells = new boolean[4];
 		LinkedList<Cell> stackCells = new LinkedList<Cell>();
 
@@ -73,7 +73,8 @@ public class Maze {
 					randomNextCell = (int) (Math.random() * 4);
 				} while(!neighbourCells[randomNextCell]);
 
-				System.out.println(randomNextCell);
+				// for debugging
+				//System.out.println(randomNextCell);
 
 				switch (randomNextCell) {
 					case 0:
@@ -93,24 +94,22 @@ public class Maze {
 						break;
 					case 3:
 						grid[cell.x][cell.y].directions.addFirst("L");
-						grid[cell.x][cell.y].directions.addFirst("R");
+						grid[cell.x - 1][cell.y].directions.addFirst("R");
+						cell.x -= 1;
+						break;
 				}
-				//System.out.println(randomNextCell);
 			} 
 			else {
 				cell = stackCells.removeFirst();
 			}
-			
-			
-			//for (int i = 0; )
-
-			//System.out.println(neighbourCellsCount);
 		} while(!stackCells.isEmpty());
+
+		// representing the grid, with each cell containing the directions it can move to
 		for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					System.out.print("Cell" + x + "|" + y +" ");
-					while (!grid[x][y].directions.isEmpty()) {
-						System.out.print(grid[x][y].directions.removeFirst() + ", ");	
+					System.out.print("Cell" + y + "|" + x +" ");
+					while (!grid[y][x].directions.isEmpty()) {
+						System.out.print(grid[y][x].directions.removeFirst() + ", ");	
 					}
 				}	
 				System.out.println("");
