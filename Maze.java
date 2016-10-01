@@ -5,8 +5,8 @@ import java.lang.*;
 public class Maze {
 
 	// size to be taken from the user
-	public int width = 2;
-	public int height = 3;
+	public int width = 5;
+	public int height = 5;
 	Cell[][] grid = new Cell[width][height];
 
 	public void initalizeGrid() {
@@ -105,23 +105,51 @@ public class Maze {
 		} while(!stackCells.isEmpty());
 
 		// representing the grid, with each cell containing the directions it can move to
-		/*for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
 				System.out.print("Cell" + y + "|" + x +" ");
-				while (!grid[y][x].directions.isEmpty()) {
-					System.out.print(grid[y][x].directions.removeFirst() + ", ");	
+				LinkedList<String> tmp = new LinkedList<String>();
+				while (!grid[x][y].directions.isEmpty()) {
+					String tmpDir = grid[x][y].directions.removeFirst();
+					tmp.addFirst(tmpDir);
+					System.out.print(tmpDir + ", ");	
 				}
+				grid[x][y].directions = tmp;
 			}	
 			System.out.println("");
-		}*/
+		}
 	}
 
 	public void displayMaze() {
+		System.out.print(" ");
+		for (int i = 0; i < width; i++) {
+			System.out.print("_ ");
+		}
+		System.out.println("");
 
+		for (int y = 0; y < height; y++) {
+			System.out.print("|");
+			for (int x = 0; x < width; x++) {
+				if (grid[x][y].directions.contains("D")) {
+					System.out.print(" ");
+				}
+				else {
+					System.out.print("_");
+				}
+				if (grid[x][y].directions.contains("R")) {
+					System.out.print(" ");
+				}
+				else {
+					System.out.print("|");
+				}
+			}
+			System.out.println("");	
+		}
 	}
 
 	public static void main(String[] args) {
 		Maze m = new Maze();
 		m.GenMaze();
+		m.displayMaze();
 	}
 }
