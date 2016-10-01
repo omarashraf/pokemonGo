@@ -5,7 +5,7 @@ import java.lang.*;
 public class Maze {
 
 	// size to be taken from the user
-	public int width = 3;
+	public int width = 2;
 	public int height = 3;
 	Cell[][] grid = new Cell[width][height];
 
@@ -105,15 +105,19 @@ public class Maze {
 		} while(!stackCells.isEmpty());
 
 		// representing the grid, with each cell containing the directions it can move to
-		for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					System.out.print("Cell" + y + "|" + x +" ");
-					while (!grid[y][x].directions.isEmpty()) {
-						System.out.print(grid[y][x].directions.removeFirst() + ", ");	
-					}
-				}	
-				System.out.println("");
-			}
+		/*for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				System.out.print("Cell" + y + "|" + x +" ");
+				while (!grid[y][x].directions.isEmpty()) {
+					System.out.print(grid[y][x].directions.removeFirst() + ", ");	
+				}
+			}	
+			System.out.println("");
+		}*/
+	}
+
+	public void displayMaze() {
+
 	}
 
 	public static void main(String[] args) {
