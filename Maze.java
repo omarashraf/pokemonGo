@@ -4,10 +4,11 @@ import java.lang.*;
 
 public class Maze {
 
-	// size to be taken from the user
 	public int width = 5;
 	public int height = 5;
-	Cell[][] grid = new Cell[width][height];
+	public Cell[][] grid = new Cell[width][height];
+	int startX = (int) (Math.random() * width);
+	int startY = (int) (Math.random() * height);
 
 	public void initalizeGrid() {
 		for (int i = 0; i < width; i++) {
@@ -21,9 +22,10 @@ public class Maze {
 		this.initalizeGrid();
 		boolean[][] gridCellsState = new boolean[width][height];
 		boolean[] neighbourCells = new boolean[4];
-		LinkedList<Cell> stackCells = new LinkedList<Cell>();
-
-		Cell cell = new Cell(0, 0);
+		LinkedList<Cell> stackCells = new LinkedList<Cell>();	
+		// printing the starting cell indices.
+		System.out.println("X: " + startX + ", Y: " + startY);
+		Cell cell = new Cell(startX, startY);
 		stackCells.addFirst(cell);
 
 		do {
@@ -35,28 +37,28 @@ public class Maze {
 				switch (i) {
 					case 0: 
 						if (cell.y - 1 >= 0 && !gridCellsState[cell.x][cell.y - 1]) {
-							System.out.println("UP");
+							//System.out.println("UP");
 							neighbourCells[i] = true;
 							neighbourCellsCount++;
 						}
 						break;
 					case 1:
 						if (cell.x + 1 < width && !gridCellsState[cell.x + 1][cell.y]) {
-							System.out.println("RIGHT");
+							//System.out.println("RIGHT");
 							neighbourCells[i] = true;	
 							neighbourCellsCount++;
 						}
 						break;
 					case 2:
 						if (cell.y + 1 < height && !gridCellsState[cell.x][cell.y + 1]) {
-							System.out.println("DOWN");
+							//System.out.println("DOWN");
 							neighbourCells[i] = true;
 							neighbourCellsCount++;		
 						}
 						break;
 					case 3:
 						if (cell.x - 1 >= 0 && !gridCellsState[cell.x - 1][cell.y]) {
-							System.out.println("LEFT");
+							//System.out.println("LEFT");
 							neighbourCells[i] = true;	
 							neighbourCellsCount++;
 						}
@@ -73,7 +75,7 @@ public class Maze {
 					randomNextCell = (int) (Math.random() * 4);
 				} while(!neighbourCells[randomNextCell]);
 
-				// for debugging
+				// for debugging.
 				//System.out.println(randomNextCell);
 
 				switch (randomNextCell) {
@@ -104,10 +106,13 @@ public class Maze {
 			}
 		} while(!stackCells.isEmpty());
 
+		// generating a random end cell.
+		this.genEnd();
+
 		// representing the grid, with each cell containing the directions it can move to
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				System.out.print("Cell" + y + "|" + x +" ");
+				System.out.print("Cell |" + x + "|" + y +"| ");
 				LinkedList<String> tmp = new LinkedList<String>();
 				while (!grid[x][y].directions.isEmpty()) {
 					String tmpDir = grid[x][y].directions.removeFirst();
@@ -118,6 +123,37 @@ public class Maze {
 			}	
 			System.out.println("");
 		}
+	}
+
+	public void genEnd() {
+		LinkedList<Cell> candidateEnds = new LinkedList<Cell>();
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (grid[i][j].directions.size() == 1 && !(i == startX && j == startY)) {
+					candidateEnds.addFirst(grid[i][j]);
+				}
+			}
+		}
+		System.out.println("The no. of candidateEnds " + candidateEnds.size());
+
+		// for printing all candidates.
+		/*LinkedList<Cell> tmpCan = new LinkedList<Cell>();
+		int size = candidateEnds.size();
+		for (int j = 0; j < size; j++) {
+			Cell tmp = candidateEnds.removeFirst();
+			System.out.println(j + ". " + tmp.x + ", " + tmp.y);
+			tmpCan.addFirst(tmp);
+		}
+		candidateEnds = tmpCan;*/
+
+		// generating a random index to choose between all end cell candidates.
+		int randEndIndex = (int) Math.random() * candidateEnds.size();
+		Cell endCell;
+		for (int i = 0; i < randEndIndex; i++) {
+			endCell = candidateEnds.removeFirst();
+		}
+		endCell = candidateEnds.removeFirst();
+		System.out.println("endCell " + endCell.x + ", " + endCell.y);
 	}
 
 	public void displayMaze() {
