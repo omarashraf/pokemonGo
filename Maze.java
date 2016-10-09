@@ -129,6 +129,7 @@ public class Maze {
 			}	
 			System.out.println("");
 		}
+		this.displayMaze();
 	}
 
 	public void genEnd() {
@@ -190,7 +191,7 @@ public class Maze {
 	public void displayMaze() {
 		System.out.print(" ");
 		for (int i = 0; i < width; i++) {
-			System.out.print("_ ");
+			System.out.print("___ ");
 		}
 		System.out.println("");
 
@@ -199,8 +200,22 @@ public class Maze {
 			for (int x = 0; x < width; x++) {
 				if (grid[x][y].directions.contains("D")) {
 					System.out.print(" ");
+					if (pokemonFlag[x][y]) {
+						System.out.print("P");
+					}
+					else {
+						System.out.print(" ");
+					}
+					System.out.print(" ");
 				}
 				else {
+					System.out.print("_");
+					if (pokemonFlag[x][y]) {
+						System.out.print("P");
+					}
+					else {
+						System.out.print("_");
+					}
 					System.out.print("_");
 				}
 				if (grid[x][y].directions.contains("R")) {
@@ -216,8 +231,7 @@ public class Maze {
 
 	public static void main(String[] args) {
 		Maze m = new Maze();
-		//m.GenMaze();
-		//m.displayMaze();
+		m.GenMaze();
 		//m.genPokemons();
 		//System.out.println(m.pokemonNumbers);
 	}
