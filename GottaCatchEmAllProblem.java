@@ -3,7 +3,7 @@ public class GottaCatchEmAllProblem extends Problem {
   public int pokeCount;
   public Maze maze;
 
-  public GottaCatchEmAllProblem(State initalState, LinkedList<Char> operators, LinkedList<State> stateSpace) {
+  public GottaCatchEmAllProblem(State initalState, LinkedList<char> operators, LinkedList<State> stateSpace) {
     this.initialState = initialState;
     this.operators = operators;
     this.stateSpace = stateSpace;
@@ -35,15 +35,15 @@ public class GottaCatchEmAllProblem extends Problem {
     for (Char operator : operators) {
       if (facingEdge(node)) {
         switch (operator) {
-          case 'R': rotateRight(Node node); break;
-          case 'L': rotateLeft(Node node); break;
+          case 'R': rotateRight(node); break;
+          case 'L': rotateLeft(node); break;
         }
       }
       else {
         switch (operator) {
-          case 'F': moveForward(Node node); break;
-          case 'R': rotateRight(Node node); break;
-          case 'L': rotateLeft(Node node); break;
+          case 'F': moveForward(node); break;
+          case 'R': rotateRight(node); break;
+          case 'L': rotateLeft(node); break;
         }
       }
     }

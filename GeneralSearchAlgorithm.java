@@ -4,8 +4,8 @@ public class GeneralSearchAlgorithm {
 
 	public static Node generalSearch(Problem problem, QingFun qingFun) {  // QingFun is an Enum for the queueing strategies
 		// Create a node for the initial state
-		State initialState = problem.state;
-		Node node = new Node(null, 0, 0, null, initialState);
+		State initialState = problem.initalState;
+		Node node = new Node(null, 0, 0, '', initialState);
 
 		// Initialize queue, and add the node
 		LinkedList<Node> nodes = new LinkedList<Node>();
