@@ -10,6 +10,9 @@ public class Maze {
 	public int startX = (int) (Math.random() * width);
 	public int startY = (int) (Math.random() * height);
 	public Cell endCell;
+	public int pokemonNumbers = (int) (Math.random() * ((width * height) / 2)) + 1;
+	public boolean[][] pokemonFlag = new boolean[width][height];
+	public LinkedList<Cell> pokemonCells = new LinkedList<Cell>();
 
 	public void initalizeGrid() {
 		for (int i = 0; i < width; i++) {
@@ -110,7 +113,10 @@ public class Maze {
 		// generating a random end cell.
 		this.genEnd();
 
-		// representing the grid, with each cell containing the directions it can move to
+		// generating random cells, according to the number of pokemons generated.
+		this.genPokemons();
+
+		// representing the grid, with each cell containing the directions it can move to.
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				System.out.print("Cell |" + x + "|" + y +"| ");
@@ -124,6 +130,7 @@ public class Maze {
 			}
 			System.out.println("");
 		}
+		this.displayMaze();
 	}
 
 	public void genEnd() {
@@ -157,10 +164,35 @@ public class Maze {
 		System.out.println("endCell " + endCell.x + ", " + endCell.y);
 	}
 
+	public void genPokemons() {
+		int pokemonNumbersTracker = pokemonNumbers;
+		while (pokemonNumbersTracker > 0) {
+			int pokemonX = (int) (Math.random() * width);
+			int pokemonY = (int) (Math.random() * height);
+			if (pokemonFlag[pokemonX][pokemonY]) {
+				continue;
+			}
+			else {
+				pokemonFlag[pokemonX][pokemonY] = true;
+				pokemonNumbersTracker--;
+				pokemonCells.addFirst(new Cell(pokemonX, pokemonY));
+			}
+		}
+
+		// for debugging
+		/*int size = pokemonCells.size();
+		for (int i = 0; i < size; i++) {
+			Cell tmp = pokemonCells.removeFirst();
+			System.out.println("X: " + tmp.x + ", Y: " + tmp.y);
+			pokemonCells.addLast(tmp);
+		}*/
+		//System.out.println(pokemonCells.size());
+	}
+
 	public void displayMaze() {
 		System.out.print(" ");
 		for (int i = 0; i < width; i++) {
-			System.out.print("_ ");
+			System.out.print("___ ");
 		}
 		System.out.println("");
 
@@ -169,8 +201,22 @@ public class Maze {
 			for (int x = 0; x < width; x++) {
 				if (grid[x][y].directions.contains("D")) {
 					System.out.print(" ");
+					if (pokemonFlag[x][y]) {
+						System.out.print("P");
+					}
+					else {
+						System.out.print(" ");
+					}
+					System.out.print(" ");
 				}
 				else {
+					System.out.print("_");
+					if (pokemonFlag[x][y]) {
+						System.out.print("P");
+					}
+					else {
+						System.out.print("_");
+					}
 					System.out.print("_");
 				}
 				if (grid[x][y].directions.contains("R")) {
@@ -187,6 +233,7 @@ public class Maze {
 	public static void main(String[] args) {
 		Maze m = new Maze();
 		m.GenMaze();
-		m.displayMaze();
+		//m.genPokemons();
+		//System.out.println(m.pokemonNumbers);
 	}
 }
