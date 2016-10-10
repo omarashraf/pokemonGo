@@ -1,3 +1,3 @@
-public Enum QingFun {
+public enum QingFun {
 	ENQUEUE_AT_FRONT, ENQUEUE_AT_END, ORDERED_INSERT;
 }

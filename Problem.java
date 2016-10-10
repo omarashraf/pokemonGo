@@ -4,14 +4,14 @@ import java.util.LinkedList;
 abstract public class Problem {
 
 	public State initalState;
-	public LinkedList<Char> operators;
+	public LinkedList<Operator> operators;
 	public LinkedList<State> stateSpace;
 
 	abstract public boolean goalTest(State state);
 	abstract public int costFunc(Node success);
 	abstract public LinkedList<Node> applyOperators(Node node);
 
-	public LinkedList<Node> enqueue(LinkedList<Node> nodes, LinkedList<Node> children, QingFun qingFun) {
+	public void enqueue(LinkedList<Node> nodes, LinkedList<Node> children, QingFun qingFun) {
 		if (qingFun == QingFun.ENQUEUE_AT_END) {
 			for (Node n : children) {
 				nodes.addLast(n);

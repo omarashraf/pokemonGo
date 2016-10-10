@@ -12,7 +12,7 @@ abstract public class Node {
 	public Node (Node parentNode, int depth, int pathCost, char operator, State state) {
 		this.parentNode = parentNode;
 		this.depth = depth;
-		this pathCost = pathCost;
+		this.pathCost = pathCost;
 		this.operator = operator;
 		this.state = state;
 	}

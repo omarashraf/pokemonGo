@@ -1,9 +1,11 @@
+import java.util.LinkedList;
+
 public class GottaCatchEmAllProblem extends Problem {
   public int hatchSteps;
   public int pokeCount;
   public Maze maze;
 
-  public GottaCatchEmAllProblem(State initalState, LinkedList<char> operators, LinkedList<State> stateSpace) {
+  public GottaCatchEmAllProblem(State initalState, LinkedList<Operator> operators, LinkedList<State> stateSpace) {
     this.initialState = initialState;
     this.operators = operators;
     this.stateSpace = stateSpace;
@@ -32,21 +34,25 @@ public class GottaCatchEmAllProblem extends Problem {
   }
 
   public LinkedList<Node> applyOperators(Node node) {
-    for (Char operator : operators) {
+    LinkedList<Node> children = new LinkedList<Node>();
+    Node generatedNode;
+    for (Char operator : operators.operatorChar) {
       if (facingEdge(node)) {
         switch (operator) {
-          case 'R': rotateRight(node); break;
-          case 'L': rotateLeft(node); break;
+          case 'R': generatedNode = rotateRight(node); break;
+          case 'L': generatedNode = rotateLeft(node); break;
         }
       }
       else {
         switch (operator) {
-          case 'F': moveForward(node); break;
-          case 'R': rotateRight(node); break;
-          case 'L': rotateLeft(node); break;
+          case 'F': generatedNode = moveForward(node); break;
+          case 'R': generatedNode = rotateRight(node); break;
+          case 'L': generatedNode = rotateLeft(node); break;
         }
       }
+      children.addFirst(generatedNode);
     }
+    return children;
   }
 
   public boolean facingEdge(Node node) {
@@ -66,36 +72,45 @@ public class GottaCatchEmAllProblem extends Problem {
     return (point >= p && point <= q);
   }
 
-  public void moveForward(Node node) {
+  public Node moveForward(Node node) {
     char orientation = node.state.orientation;
-
+    Node newNode = node;
     switch (orientation) {
-      case 'N': node.state.y--; break;
-      case 'E': node.state.x++; break;
-      case 'S': node.state.y++; break;
-      case 'W': node.state.x--; break;
+      case 'N': newNode.state.y--; break;
+      case 'E': newNode.state.x++; break;
+      case 'S': newNode.state.y++; break;
+      case 'W': newNode.state.x--; break;
     }
+    return newNode;
   }
 
-  public void rotateRight(Node node) {
+  public Node rotateRight(Node node) {
     char orientation = node.state.orientation;
-
+    Node newNode = node;
     switch (orientation) {
-      case 'N': node.state.orientation = 'E'; break;
-      case 'E': node.state.orientation = 'S'; break;
-      case 'S': node.state.orientation = 'W'; break;
-      case 'W': node.state.orientation = 'N'; break;
+      case 'N': newNode.state.orientation = 'E'; break;
+      case 'E': newNode.state.orientation = 'S'; break;
+      case 'S': newNode.state.orientation = 'W'; break;
+      case 'W': newNode.state.orientation = 'N'; break;
     }
+    return newNode;
   }
 
-  public void rotateLeft(Node node) {
+  public Node rotateLeft(Node node) {
     char orientation = node.state.orientation;
-
+    Node newNode = node;
     switch (orientation) {
-      case 'N': node.state.orientation = 'W'; break;
-      case 'E': node.state.orientation = 'N'; break;
-      case 'S': node.state.orientation = 'E'; break;
-      case 'W': node.state.orientation = 'S'; break;
+      case 'N': newNode.state.orientation = 'W'; break;
+      case 'E': newNode.state.orientation = 'N'; break;
+      case 'S': newNode.state.orientation = 'E'; break;
+      case 'W': newNode.state.orientation = 'S'; break;
     }
+    return newNode;
+  }
+
+
+
+  public static void main(String[] args) {
+
   }
 }
