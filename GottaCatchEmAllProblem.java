@@ -14,7 +14,8 @@ public class GottaCatchEmAllProblem extends Problem {
   }
 
   public boolean goalTest(State state) {
-    if ((state.x == maze.endCell.x) && (state.y == maze.endCell.y) && (hatchSteps == 0) && 
+    GottaCatchEmAllState xState = (GottaCatchEmAllState) state;
+    if ((xState.x == maze.endCell.x) && (xState.y == maze.endCell.y) && (hatchSteps == 0) && 
     (maze.pokemonNumbers == 0)) { // check if all pokemons were caught
       return true;
     }
@@ -98,6 +99,7 @@ public class GottaCatchEmAllProblem extends Problem {
   }
 
   public Node rotateLeft(Node node) {
+    
     char orientation = node.state.orientation;
     Node newNode = node;
     switch (orientation) {
