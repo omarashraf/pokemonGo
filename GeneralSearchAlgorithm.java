@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 public class GeneralSearchAlgorithm {
 
 	public static Node generalSearch(Problem problem, QingFun qingFun) {  // QingFun is an Enum for the queueing strategies
@@ -6,13 +8,13 @@ public class GeneralSearchAlgorithm {
 		Node node = new Node(null, 0, 0, null, initialState);
 
 		// Initialize queue, and add the node
-		ArrayList<Node> nodes = new ArrayList<Node>();
+		LinkedList<Node> nodes = new LinkedList<Node>();
 		nodes.add(node);
 
 		// Loop over the nodes in the queue
 		for (int i = 0; i < nodes.size(); i++) {
 			// Retrieve the node at the front
-			Node n = nodes.remove(0);
+			Node n = nodes.removeFirst();
 
 			// Chcek if it passes the goal test, and return the node in case of success
 			if (problem.goalTest(n.state)) {
@@ -29,37 +31,11 @@ public class GeneralSearchAlgorithm {
 		}
 	}
 
-	public static void expand(ArrayList<Node> nodes, Node node, Problem problem, QingFun qingFun) {
-		// Apply the operators on the node
-		ArrayList<Node> resultNodes = problem.applyOperators(node);
+	public static void expand(LinkedList<Node> nodes, Node node, Problem problem, QingFun qingFun) {
+		// Apply the operators on the node to get the children
+		LinkedList<Node> children = problem.applyOperators(node);
 
-		if (qingFun == QingFun.ENQUEUE_AT_END) {
-			for (Node n : resultNodes) {
-				nodes.add(nodes.size());
-			}
-		}
-
-		else if (qingFun == QingFun.ENQUEUE_AT_FRONT) {
-			for (Node n : resultNodes) {
-				nodes.add(0);
-			}
-		}
-
-		else if (qingFun == QingFun.ORDERED_INSERT) {
-			int i;
-			for (Node n : resultNodes) {
-				// Insertion sort
-				for (i = 0; i < nodes.size(); i++) {
-					Node tempNode = nodes.get(i);
-					if (n.pathCost > tempNode.pathCost) {
-						continue;
-					}
-					else {
-						break;
-					}
-				}
-				nodes.add(n, i);
-			}
-		}
+		// Add the children to the queue according to the QingFun
+		problem.enqueue(nodes, children, qingFun);
 	}
 }
