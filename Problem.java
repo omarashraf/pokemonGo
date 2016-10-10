@@ -3,7 +3,7 @@ import java.util.LinkedList;
 
 abstract public class Problem {
 
-	public State initalState;
+	public State initialState;
 	public LinkedList<Operator> operators;
 	public LinkedList<State> stateSpace;
 

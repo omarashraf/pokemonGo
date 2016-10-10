@@ -5,7 +5,7 @@ public class GottaCatchEmAllProblem extends Problem {
   public int pokeCount;
   public Maze maze;
 
-  public GottaCatchEmAllProblem(State initalState, LinkedList<Operator> operators, LinkedList<State> stateSpace) {
+  public GottaCatchEmAllProblem(GottaCatchEmAllState initialState, LinkedList<Operator> operators, LinkedList<State> stateSpace) {
     this.initialState = initialState;
     this.operators = operators;
     this.stateSpace = stateSpace;
@@ -14,7 +14,8 @@ public class GottaCatchEmAllProblem extends Problem {
   }
 
   public boolean goalTest(State state) {
-    if ((state.x == maze.endCell.x) && (state.y == maze.endCell.y) && (hatchSteps == 0) && (pokeCount == 0)) { // check if all pokemons were caught
+    if ((state.x == maze.endCell.x) && (state.y == maze.endCell.y) && (hatchSteps == 0) && 
+    (maze.pokemonNumbers == 0)) { // check if all pokemons were caught
       return true;
     }
 
@@ -24,10 +25,10 @@ public class GottaCatchEmAllProblem extends Problem {
   public int costFunc(Node node) {
     int result = 0;
 
-    while (node.parent != null) {
+    while (node.parentNode != null) {
       result += node.pathCost;
 
-      node = node.parent;
+      node = node.parentNode;
     }
 
     return result;
@@ -107,8 +108,6 @@ public class GottaCatchEmAllProblem extends Problem {
     }
     return newNode;
   }
-
-
 
   public static void main(String[] args) {
 
