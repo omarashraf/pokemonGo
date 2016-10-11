@@ -14,8 +14,9 @@ public class GottaCatchEmAllProblem extends Problem {
   }
 
   public boolean goalTest(State state) {
-    GottaCatchEmAllState xState = (GottaCatchEmAllState) state;
-    if ((xState.x == maze.endCell.x) && (xState.y == maze.endCell.y) && (hatchSteps == 0) && 
+    GottaCatchEmAllState currentState = (GottaCatchEmAllState) state;
+
+    if ((currentState.x == maze.endCell.x) && (currentState.y == maze.endCell.y) && (hatchSteps == 0) &&
     (maze.pokemonNumbers == 0)) { // check if all pokemons were caught
       return true;
     }
@@ -24,32 +25,35 @@ public class GottaCatchEmAllProblem extends Problem {
   }
 
   public int costFunc(Node node) {
+    GottaCatchEmAllNode currentNode = (GottaCatchEmAllNode) node;
+
     int result = 0;
 
-    while (node.parentNode != null) {
-      result += node.pathCost;
+    while (currentNode.parentNode != null) {
+      result += currentNode.pathCost;
 
-      node = node.parentNode;
+      currentNode = (GottaCatchEmAllNode) currentNode.parentNode;
     }
 
     return result;
   }
 
   public LinkedList<Node> applyOperators(Node node) {
+    GottaCatchEmAllNode currentNode = (GottaCatchEmAllNode) node;
     LinkedList<Node> children = new LinkedList<Node>();
-    Node generatedNode;
-    for (Char operator : operators.operatorChar) {
-      if (facingEdge(node)) {
-        switch (operator) {
-          case 'R': generatedNode = rotateRight(node); break;
-          case 'L': generatedNode = rotateLeft(node); break;
+    GottaCatchEmAllNode generatedNode = null;
+    for (Operator operator : operators) {
+      if (facingEdge(currentNode)) {
+        switch (operator.operatorChar) {
+          case 'R': generatedNode = rotateRight(currentNode); break;
+          case 'L': generatedNode = rotateLeft(currentNode); break;
         }
       }
       else {
-        switch (operator) {
-          case 'F': generatedNode = moveForward(node); break;
-          case 'R': generatedNode = rotateRight(node); break;
-          case 'L': generatedNode = rotateLeft(node); break;
+        switch (operator.operatorChar) {
+          case 'F': generatedNode = moveForward(currentNode); break;
+          case 'R': generatedNode = rotateRight(currentNode); break;
+          case 'L': generatedNode = rotateLeft(currentNode); break;
         }
       }
       children.addFirst(generatedNode);
@@ -57,12 +61,12 @@ public class GottaCatchEmAllProblem extends Problem {
     return children;
   }
 
-  public boolean facingEdge(Node node) {
+  public boolean facingEdge(GottaCatchEmAllNode node) {
     int m = maze.height;
     int n = maze.width;
-    int x = node.state.x;
-    int y = node.state.y;
-    char orientation = node.state.orientation;
+    int x = ((GottaCatchEmAllState) node.state).x;
+    int y = ((GottaCatchEmAllState) node.state).y;
+    char orientation = ((GottaCatchEmAllState) node.state).orientation;
 
     return ((x == 0 && isBetween(y, 0, n-1) && orientation == 'N') ||
             (y == 0 && isBetween(x, 0, m-1) && orientation == 'W') ||
@@ -74,39 +78,38 @@ public class GottaCatchEmAllProblem extends Problem {
     return (point >= p && point <= q);
   }
 
-  public Node moveForward(Node node) {
-    char orientation = node.state.orientation;
-    Node newNode = node;
+  public GottaCatchEmAllNode moveForward(GottaCatchEmAllNode node) {
+    char orientation = ((GottaCatchEmAllState) node.state).orientation;
+    GottaCatchEmAllNode newNode = new GottaCatchEmAllNode(node, node.depth+1, node.pathCost+1, 'F', (GottaCatchEmAllState) node.state);
     switch (orientation) {
-      case 'N': newNode.state.y--; break;
-      case 'E': newNode.state.x++; break;
-      case 'S': newNode.state.y++; break;
-      case 'W': newNode.state.x--; break;
+      case 'N': ((GottaCatchEmAllState) newNode.state).y--; break;
+      case 'E': ((GottaCatchEmAllState) newNode.state).x++; break;
+      case 'S': ((GottaCatchEmAllState) newNode.state).y++; break;
+      case 'W': ((GottaCatchEmAllState) newNode.state).x--; break;
     }
     return newNode;
   }
 
-  public Node rotateRight(Node node) {
-    char orientation = node.state.orientation;
-    Node newNode = node;
+  public GottaCatchEmAllNode rotateRight(GottaCatchEmAllNode node) {
+    char orientation = ((GottaCatchEmAllState) node.state).orientation;
+    GottaCatchEmAllNode newNode = new GottaCatchEmAllNode(node, node.depth+1, node.pathCost+1, 'R', (GottaCatchEmAllState) node.state);
     switch (orientation) {
-      case 'N': newNode.state.orientation = 'E'; break;
-      case 'E': newNode.state.orientation = 'S'; break;
-      case 'S': newNode.state.orientation = 'W'; break;
-      case 'W': newNode.state.orientation = 'N'; break;
+      case 'N': ((GottaCatchEmAllState) newNode.state).orientation = 'E'; break;
+      case 'E': ((GottaCatchEmAllState) newNode.state).orientation = 'S'; break;
+      case 'S': ((GottaCatchEmAllState) newNode.state).orientation = 'W'; break;
+      case 'W': ((GottaCatchEmAllState) newNode.state).orientation = 'N'; break;
     }
     return newNode;
   }
 
-  public Node rotateLeft(Node node) {
-    
-    char orientation = node.state.orientation;
-    Node newNode = node;
+  public GottaCatchEmAllNode rotateLeft(GottaCatchEmAllNode node) {
+    char orientation = ((GottaCatchEmAllState) node.state).orientation;
+    GottaCatchEmAllNode newNode = new GottaCatchEmAllNode(node, node.depth+1, node.pathCost+1, 'L', (GottaCatchEmAllState) node.state);
     switch (orientation) {
-      case 'N': newNode.state.orientation = 'W'; break;
-      case 'E': newNode.state.orientation = 'N'; break;
-      case 'S': newNode.state.orientation = 'E'; break;
-      case 'W': newNode.state.orientation = 'S'; break;
+      case 'N': ((GottaCatchEmAllState) newNode.state).orientation = 'W'; break;
+      case 'E': ((GottaCatchEmAllState) newNode.state).orientation = 'N'; break;
+      case 'S': ((GottaCatchEmAllState) newNode.state).orientation = 'E'; break;
+      case 'W': ((GottaCatchEmAllState) newNode.state).orientation = 'S'; break;
     }
     return newNode;
   }
