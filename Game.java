@@ -19,13 +19,13 @@ public class Game {
     Maze maze = new Maze();
     maze.genMaze();
 
-    char initialOrientaion = ' ';
+    char initialOrientation = ' ';
     int randomOrientationIndex = (int) (Math.random() * ((3 - 0) + 1) + 0);
     switch (randomOrientationIndex) {
-      case 0: initialOrientaion = 'N'; break;
-      case 1: initialOrientaion = 'E'; break;
-      case 2: initialOrientaion = 'S'; break;
-      case 3: initialOrientaion = 'W'; break;
+      case 0: initialOrientation = 'N'; break;
+      case 1: initialOrientation = 'E'; break;
+      case 2: initialOrientation = 'S'; break;
+      case 3: initialOrientation = 'W'; break;
     }
 
     Operator forward = new Operator('F');
@@ -37,7 +37,7 @@ public class Game {
     operators.add(right);
     operators.add(left);
 
-    GottaCatchEmAllState initalState = new GottaCatchEmAllState(maze.startX, maze.startY, initialOrientaion);
+    GottaCatchEmAllState initalState = new GottaCatchEmAllState(maze.startX, maze.startY, initialOrientation);
 
     pokemonGo = new GottaCatchEmAllProblem(initalState, operators, null, maze);
   }

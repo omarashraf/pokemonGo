@@ -29,7 +29,7 @@ abstract public class Problem {
 		}
 
 		else if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
-			
+
 		}
 
 		else if (qingFun == QingFun.ORDERED_INSERT) {

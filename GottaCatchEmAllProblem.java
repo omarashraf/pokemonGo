@@ -59,7 +59,7 @@ public class GottaCatchEmAllProblem extends Problem {
     Node generatedNode = null;
 
     for (Operator operator : operators) {
-      if (facingEdge(node)) {
+      if (facingWall(node)) {
         switch (operator.operatorChar) {
           case 'F':
           case 'R': generatedNode = rotateRight(node); break;
@@ -78,17 +78,28 @@ public class GottaCatchEmAllProblem extends Problem {
     return children;
   }
 
-  public boolean facingEdge(Node node) {
-    int m = maze.height;
-    int n = maze.width;
+  public boolean facingWall(Node node) {
+//    int m = maze.height;
+//    int n = maze.width;
     int x = ((GottaCatchEmAllState) node.state).x;
     int y = ((GottaCatchEmAllState) node.state).y;
     char orientation = ((GottaCatchEmAllState) node.state).orientation;
+//
+//    return ((y == 0 && isBetween(x, 0, n-1) && orientation == 'N') ||
+//            (x == 0 && isBetween(y, 0, m-1) && orientation == 'W') ||
+//            (x == n-1 && isBetween(y, 0, m-1) && orientation == 'E') ||
+//            (y == m-1 && isBetween(x, 0, n-1) && orientation == 'S'));
 
-    return ((y == 0 && isBetween(x, 0, n-1) && orientation == 'N') ||
-            (x == 0 && isBetween(y, 0, m-1) && orientation == 'W') ||
-            (x == n-1 && isBetween(y, 0, m-1) && orientation == 'E') ||
-            (y == m-1 && isBetween(x, 0, n-1) && orientation == 'S'));
+    char direction = ' ';
+    switch (orientation) {
+      case 'N': direction = 'U'; break;
+      case 'E': direction = 'R'; break;
+      case 'S': direction = 'D'; break;
+      case 'W': direction = 'L'; break;
+    }
+
+
+    return !(this.maze.grid[x][y]).directions.contains("" + direction);
   }
 
   public boolean isBetween(int point, int p, int q) {
