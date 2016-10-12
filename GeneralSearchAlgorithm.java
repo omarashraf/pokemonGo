@@ -4,8 +4,8 @@ public class GeneralSearchAlgorithm {
 
 	public static Node generalSearch(Problem problem, QingFun qingFun) {  // QingFun is an Enum for the queueing strategies
 		// Create a node for the initial state
-		State initialState = problem.initalState;
-		Node node = new Node(null, 0, 0, '', initialState);
+		State initialState = problem.getInitialState();
+		Node node = new Node(null, 0, 0, ' ', initialState);
 
 		// Initialize queue, and add the node
 		LinkedList<Node> nodes = new LinkedList<Node>();
@@ -16,7 +16,7 @@ public class GeneralSearchAlgorithm {
 			// Retrieve the node at the front
 			Node n = nodes.removeFirst();
 
-			// Chcek if it passes the goal test, and return the node in case of success
+			// Check if it passes the goal test, and return the node in case of success
 			if (problem.goalTest(n.state)) {
 				return n;
 			}
@@ -25,10 +25,7 @@ public class GeneralSearchAlgorithm {
 			expand(nodes, n, problem, qingFun);
 		}
 
-		// If the queue is empty, return a failure
-		if (nodes.isEmpty()) {
-			return null;
-		}
+		return null;
 	}
 
 	public static void expand(LinkedList<Node> nodes, Node node, Problem problem, QingFun qingFun) {

@@ -22,7 +22,7 @@ public class Maze {
 		}
 	}
 
-	public void GenMaze() {
+	public void genMaze() {
 		this.initalizeGrid();
 		boolean[][] gridCellsState = new boolean[width][height];
 		boolean[] neighbourCells = new boolean[4];
@@ -130,7 +130,7 @@ public class Maze {
 			}
 			System.out.println("");
 		}
-		this.displayMaze();
+		//this.displayMaze();
 	}
 
 	public void genEnd() {
@@ -232,7 +232,7 @@ public class Maze {
 
 	public static void main(String[] args) {
 		Maze m = new Maze();
-		m.GenMaze();
+		m.genMaze();
 		//m.genPokemons();
 		//System.out.println(m.pokemonNumbers);
 	}

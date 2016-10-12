@@ -11,6 +11,10 @@ abstract public class Problem {
 	abstract public int costFunc(Node success);
 	abstract public LinkedList<Node> applyOperators(Node node);
 
+	public State getInitialState() {
+		return initialState;
+	}
+
 	public void enqueue(LinkedList<Node> nodes, LinkedList<Node> children, QingFun qingFun) {
 		if (qingFun == QingFun.ENQUEUE_AT_END) {
 			for (Node n : children) {
@@ -18,10 +22,14 @@ abstract public class Problem {
 			}
 		}
 
-		else if (qingFun == QingFun.ENQUEUE_AT_FRONT) {
+		else if (qingFun == QingFun.ENQUEUE_AT_FRONT_DF) {
 			for (Node n : children) {
 				nodes.addFirst(n);
 			}
+		}
+
+		else if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
+			
 		}
 
 		else if (qingFun == QingFun.ORDERED_INSERT) {
