@@ -130,7 +130,7 @@ public class Maze {
 			}
 			System.out.println("");
 		}
-		//this.displayMaze();
+		this.displayMaze(startX, startY);
 	}
 
 	public void genEnd() {
@@ -189,7 +189,7 @@ public class Maze {
 		//System.out.println(pokemonCells.size());
 	}
 
-	public void displayMaze() {
+	public void displayMaze(int agentX, int agentY) {
 		System.out.print(" ");
 		for (int i = 0; i < width; i++) {
 			System.out.print("___ ");
@@ -201,21 +201,31 @@ public class Maze {
 			for (int x = 0; x < width; x++) {
 				if (grid[x][y].directions.contains("D")) {
 					System.out.print(" ");
-					if (pokemonFlag[x][y]) {
-						System.out.print("P");
+					if (x == agentX && y == agentY) {
+						System.out.print("A");
 					}
 					else {
-						System.out.print(" ");
+						if (pokemonFlag[x][y]) {
+							System.out.print("P");
+						}
+						else {
+							System.out.print(" ");
+						}
 					}
 					System.out.print(" ");
 				}
 				else {
 					System.out.print("_");
-					if (pokemonFlag[x][y]) {
-						System.out.print("P");
+					if (x == agentX && y == agentY) {
+						System.out.print("A");
 					}
 					else {
-						System.out.print("_");
+						if (pokemonFlag[x][y]) {
+							System.out.print("P");
+						}
+						else {
+							System.out.print("_");
+						}
 					}
 					System.out.print("_");
 				}
