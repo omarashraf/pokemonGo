@@ -18,6 +18,10 @@ public class GeneralSearchAlgorithm {
 
 			// Check if it passes the goal test, and return the node in case of success
 			if (problem.goalTest(n.state)) {
+				// Test
+				System.out.println("NODE_OP: " + n.operator);
+				System.out.println("NODE_PARENT: " + ((GottaCatchEmAllState)n.parentNode.state).x + ", " + ((GottaCatchEmAllState)n.parentNode.state).y + ", " + ((GottaCatchEmAllState)n.parentNode.state).orientation);
+				System.out.println("NODE_POKES: " + ((GottaCatchEmAllState)n.parentNode.state).pokeCount);
 				return n;
 			}
 

@@ -38,7 +38,7 @@ abstract public class Problem {
 				// Insertion sort
 				for (i = 0; i < nodes.size(); i++) {
 					Node tempNode = nodes.get(i);
-					if (n.pathCost > tempNode.pathCost) {
+					if (n.pathCost >= tempNode.pathCost) {
 						continue;
 					}
 					else {
