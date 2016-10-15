@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Node {
+public class Node implements Comparable<Node> {
 
 	public Node parentNode;
 	public int depth;
@@ -19,5 +19,10 @@ public class Node {
 		this.pathCost = pathCost;
 		this.operator = operator;
 		this.state = state;
+	}
+
+	public int compareTo(Node other) {
+		if (this.depth > other.depth) return 1;
+		else return -1;
 	}
 }

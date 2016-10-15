@@ -2,6 +2,22 @@ import java.util.LinkedList;
 
 public class GeneralSearchAlgorithm {
 
+	public static int depth;
+	public static int depthSoFar;
+
+	public static void startSearch(Problem problem, QingFun qingFun) {
+		if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
+			for (depth = 0; depth < Double.POSITIVE_INFINITY; depth++) {
+				depthSoFar = -1;
+				generalSearch(problem, qingFun);
+			}
+		}
+
+		else {
+			generalSearch(problem, qingFun);
+		}
+	}
+
 	public static Node generalSearch(Problem problem, QingFun qingFun) {  // QingFun is an Enum for the queueing strategies
 		// Create a node for the initial state
 		State initialState = problem.getInitialState();
@@ -23,6 +39,11 @@ public class GeneralSearchAlgorithm {
 				System.out.println("NODE_PARENT: " + ((GottaCatchEmAllState)n.parentNode.state).x + ", " + ((GottaCatchEmAllState)n.parentNode.state).y + ", " + ((GottaCatchEmAllState)n.parentNode.state).orientation);
 				System.out.println("NODE_POKES: " + ((GottaCatchEmAllState)n.parentNode.state).pokeCount);
 				return n;
+			}
+
+			if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
+				depthSoFar++;
+				if (depthSoFar == depth) break;
 			}
 
 			// If not, expand the node and add its children to the queue according to QingFun

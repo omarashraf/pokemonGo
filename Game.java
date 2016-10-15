@@ -11,7 +11,7 @@ public class Game {
   public void search(Maze maze, Strategy strategy, boolean visualize) {
     QingFun qingFun = getQingFun(strategy);
 
-    GeneralSearchAlgorithm.generalSearch(pokemonGo, qingFun);
+    GeneralSearchAlgorithm.startSearch(pokemonGo, qingFun);
   }
 
   public void initialize() {

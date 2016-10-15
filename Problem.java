@@ -29,24 +29,34 @@ abstract public class Problem {
 		}
 
 		else if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
-
+			for (Node n : children) {
+				if (n.depth <= GeneralSearchAlgorithm.depth) {
+					nodes.addFirst(n);
+				}
+			}
 		}
 
 		else if (qingFun == QingFun.ORDERED_INSERT) {
-			int i;
 			for (Node n : children) {
-				// Insertion sort
-				for (i = 0; i < nodes.size(); i++) {
-					Node tempNode = nodes.get(i);
-					if (n.pathCost >= tempNode.pathCost) {
-						continue;
-					}
-					else {
-						break;
-					}
-				}
-				nodes.add(i, n);
+				nodes.add(n);
 			}
+
+			MergeSort.mergeSort(nodes);
+
+//			int i;
+//			for (Node n : children) {
+//				// Insertion sort
+//				for (i = 0; i < nodes.size(); i++) {
+//					Node tempNode = nodes.get(i);
+//					if (n.pathCost >= tempNode.pathCost) {
+//						continue;
+//					}
+//					else {
+//						break;
+//					}
+//				}
+//				nodes.add(i, n);
+//			}
 		}
 	}
 }
