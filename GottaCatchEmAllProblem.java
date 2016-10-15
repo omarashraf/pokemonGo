@@ -210,8 +210,8 @@ public class GottaCatchEmAllProblem extends Problem {
           }
         }
 
-        nodesHeuristicCosts[i] = 1000;
-        nodes.addLast(children.get(i));
+        nodesHeuristicCosts[minIndex] = 1000;
+        nodes.addLast(children.get(minIndex));
       }
     }
   }
