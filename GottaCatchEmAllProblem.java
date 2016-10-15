@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 
+
 public class GottaCatchEmAllProblem extends Problem {
   public Maze maze;
 
@@ -178,6 +179,39 @@ public class GottaCatchEmAllProblem extends Problem {
         currentState.pokemonLocs.remove(i);
         currentState.pokeCount = currentState.pokemonLocs.size();
         break;
+      }
+    }
+  }
+
+  public void enqueue(LinkedList<Node> nodes, LinkedList<Node> children, QingFun qingFun) {
+    if (qingFun == QingFun.ENQUEUE_AT_END || qingFun == QingFun.ENQUEUE_AT_FRONT_DF
+        || qingFun == QingFun.ENQUEUE_AT_FRONT_ID || qingFun == QingFun.ORDERED_INSERT) {
+      super.enqueue(nodes, children, qingFun);
+    }
+
+    else if (qingFun == QingFun.HEURISTIC_ONE) {
+      int [] nodesHeuristicCosts = new int [children.size()];
+
+      for (int i = 0; i < children.size(); i++) {
+        nodesHeuristicCosts[i] = Math.abs(maze.endCell.x
+                                      - ((GottaCatchEmAllState)(children.get(i)).state).x)
+                               + Math.abs(maze.endCell.y
+                                      - ((GottaCatchEmAllState)(children.get(i)).state).y);
+      }
+
+      for (int i = 0; i < children.size(); i++) {
+        int min = 1000;
+        int minIndex = -1;
+
+        for (int j = 0; j < nodesHeuristicCosts.length; j++) {
+          if (nodesHeuristicCosts[i] < min) {
+            min = nodesHeuristicCosts[i];
+            minIndex = i;
+          }
+        }
+
+        nodesHeuristicCosts[i] = 1000;
+        nodes.addLast(children.get(i));
       }
     }
   }
