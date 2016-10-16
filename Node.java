@@ -35,8 +35,7 @@ public class Node implements Comparable<Node> {
 	}
 
 	public int compareTo(Node other) { // Will be modified for heuristics
-		if (this.pathCost < other.pathCost) return 1;
-		if (this.pathCost > other.pathCost) return -1;
-		else return 0;
+		if (this.pathCost > other.pathCost) return 1;
+		else return -1;
 	}
 }

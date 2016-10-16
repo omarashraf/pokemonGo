@@ -64,12 +64,12 @@ public class MergeSort {
 //    public static void main(String[] args) {
 //        LinkedList<Node> nodes = new LinkedList<Node>();
 //
-//        Node nodeA = new Node(null, 3, 0, ' ', null);
-//        Node nodeB = new Node(null, 9, 0, ' ', null);
-//        Node nodeC = new Node(null, 1, 0, ' ', null);
-//        Node nodeD = new Node(null, 4, 0, ' ', null);
-//        Node nodeE = new Node(null, 2, 0, ' ', null);
-//        Node nodeF = new Node(null, 7, 0, ' ', null);
+//        Node nodeA = new Node(null, 1, 1, ' ', null);
+//        Node nodeB = new Node(null, 1, 2, ' ', null);
+//        Node nodeC = new Node(null, 1, 3, ' ', null);
+//        Node nodeD = new Node(null, 1, 4, ' ', null);
+//        Node nodeE = new Node(null, 1, 5, ' ', null);
+//        Node nodeF = new Node(null, 1, 6, ' ', null);
 //
 //        nodes.add(nodeA);
 //        nodes.add(nodeB);
@@ -81,7 +81,7 @@ public class MergeSort {
 //        mergeSort(nodes);
 //
 //        for (int i = 0; i < nodes.size(); i++) {
-//            System.out.println(nodes.get(i).depth);
+//            System.out.println(nodes.get(i).pathCost);
 //        }
 //    }
 }
