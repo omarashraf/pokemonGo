@@ -4,7 +4,7 @@ import java.lang.*;
 
 public class Maze {
 
-	public int width = 2;
+	public int width = 3;
 	public int height = 2;
 	public Cell[][] grid = new Cell[width][height];
 	public int startX = (int) (Math.random() * width);

@@ -5,7 +5,8 @@ abstract public class Problem {
 
 	public State initialState;
 	public LinkedList<Operator> operators;
-	public LinkedList<State> stateSpace;
+	// public LinkedList<State> stateSpace;
+	public Hashtable<String, Integer> stateSpace;
 
 	abstract public boolean goalTest(State state);
 	abstract public int costFunc(Node success);
@@ -18,27 +19,71 @@ abstract public class Problem {
 	public void enqueue(LinkedList<Node> nodes, LinkedList<Node> children, QingFun qingFun) {
 		if (qingFun == QingFun.ENQUEUE_AT_END) {
 			for (Node n : children) {
-				nodes.addLast(n);
+				if (stateSpace.containsKey(n.fingerprint)) {
+					if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+						stateSpace.remove(n.fingerprint);
+						stateSpace.put(n.fingerprint, n.pathCost);
+						nodes.addLast(n);
+					}
+				}
+
+				else {
+					stateSpace.put(n.fingerprint, n.pathCost);
+					nodes.addLast(n);
+				}
 			}
 		}
 
 		else if (qingFun == QingFun.ENQUEUE_AT_FRONT_DF) {
 			for (Node n : children) {
-				nodes.addFirst(n);
+				if (stateSpace.containsKey(n.fingerprint)) {
+					if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+						stateSpace.remove(n.fingerprint);
+						stateSpace.put(n.fingerprint, n.pathCost);
+						nodes.addFirst(n);
+					}
+				}
+
+				else {
+					stateSpace.put(n.fingerprint, n.pathCost);
+					nodes.addFirst(n);
+				}
 			}
 		}
 
 		else if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
 			for (Node n : children) {
 				if (n.depth <= GeneralSearchAlgorithm.depth) {
-					nodes.addFirst(n);
+					if (stateSpace.containsKey(n.fingerprint)) {
+						if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+							stateSpace.remove(n.fingerprint);
+							stateSpace.put(n.fingerprint, n.pathCost);
+							nodes.addFirst(n);
+						}
+					}
+
+					else {
+						stateSpace.put(n.fingerprint, n.pathCost);
+						nodes.addFirst(n);
+					}
 				}
 			}
 		}
 
 		else if (qingFun == QingFun.ORDERED_INSERT) {
 			for (Node n : children) {
-				nodes.add(n);
+				if (stateSpace.containsKey(n.fingerprint)) {
+					if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+						stateSpace.remove(n.fingerprint);
+						stateSpace.put(n.fingerprint, n.pathCost);
+						nodes.add(n);
+					}
+				}
+
+				else {
+					stateSpace.put(n.fingerprint, n.pathCost);
+					nodes.add(n);
+				}
 			}
 
 			MergeSort.mergeSort(nodes);

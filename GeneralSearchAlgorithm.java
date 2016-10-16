@@ -1,3 +1,4 @@
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 public class GeneralSearchAlgorithm {
@@ -9,7 +10,12 @@ public class GeneralSearchAlgorithm {
 		if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
 			for (depth = 0; depth < Double.POSITIVE_INFINITY; depth++) {
 				depthSoFar = -1;
-				generalSearch(problem, qingFun);
+				problem.stateSpace = new Hashtable<String, Integer>();
+				Node n = generalSearch(problem, qingFun);
+
+				if (n != null) {
+					break;
+				}
 			}
 		}
 
@@ -26,9 +32,10 @@ public class GeneralSearchAlgorithm {
 		// Initialize queue, and add the node
 		LinkedList<Node> nodes = new LinkedList<Node>();
 		nodes.add(node);
+		problem.stateSpace.put(node.fingerprint, node.pathCost);
 
 		// Loop over the nodes in the queue
-		for (int i = 0; i < nodes.size(); i++) {
+		while(!nodes.isEmpty()) {
 			// Retrieve the node at the front
 			Node n = nodes.removeFirst();
 

@@ -1,10 +1,11 @@
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 
 public class GottaCatchEmAllProblem extends Problem {
   public Maze maze;
 
-  public GottaCatchEmAllProblem(GottaCatchEmAllState initialState, LinkedList<Operator> operators, LinkedList<State> stateSpace, Maze maze) {
+  public GottaCatchEmAllProblem(GottaCatchEmAllState initialState, LinkedList<Operator> operators, Hashtable<String, Integer> stateSpace, Maze maze) {
     this.initialState = initialState;
     this.operators = operators;
     this.stateSpace = stateSpace;
@@ -103,7 +104,6 @@ public class GottaCatchEmAllProblem extends Problem {
     }
 
     GottaCatchEmAllState newState = new GottaCatchEmAllState(currentState.x, currentState.y, currentState.orientation, currentState.hatchSteps-1, currentState.pokeCount, pokemonLocs);
-    Node newNode = new Node(node, node.depth+1, node.pathCost+2, 'F', newState);
 
     char orientation = currentState.orientation;
 
@@ -113,6 +113,8 @@ public class GottaCatchEmAllProblem extends Problem {
       case 'S': newState.y++; break;
       case 'W': newState.x--; break;
     }
+
+    Node newNode = new Node(node, node.depth+1, node.pathCost+2, 'F', newState);
 
     return newNode;
   }
@@ -126,7 +128,6 @@ public class GottaCatchEmAllProblem extends Problem {
     }
 
     GottaCatchEmAllState newState = new GottaCatchEmAllState(currentState.x, currentState.y, currentState.orientation, currentState.hatchSteps, currentState.pokeCount, pokemonLocs);
-    Node newNode = new Node(node, node.depth+1, node.pathCost+1, 'R', newState);
 
     char orientation = currentState.orientation;
 
@@ -136,6 +137,8 @@ public class GottaCatchEmAllProblem extends Problem {
       case 'S': newState.orientation = 'W'; break;
       case 'W': newState.orientation = 'N'; break;
     }
+
+    Node newNode = new Node(node, node.depth+1, node.pathCost+1, 'R', newState);
 
     return newNode;
   }
@@ -149,7 +152,6 @@ public class GottaCatchEmAllProblem extends Problem {
     }
 
     GottaCatchEmAllState newState = new GottaCatchEmAllState(currentState.x, currentState.y, currentState.orientation, currentState.hatchSteps, currentState.pokeCount, pokemonLocs);
-    Node newNode = new Node(node, node.depth+1, node.pathCost+1, 'L', newState);
 
     char orientation = currentState.orientation;
 
@@ -159,6 +161,8 @@ public class GottaCatchEmAllProblem extends Problem {
       case 'S': newState.orientation = 'E'; break;
       case 'W': newState.orientation = 'S'; break;
     }
+
+    Node newNode = new Node(node, node.depth+1, node.pathCost+1, 'L', newState);
 
     return newNode;
   }

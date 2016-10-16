@@ -1,3 +1,4 @@
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 public class Game {
@@ -48,9 +49,12 @@ public class Game {
     // Pokemons count
     int pokeCount = maze.pokemonNumbers;
 
+    // Hashtable
+    Hashtable<String, Integer> stateSpace = new Hashtable<String, Integer>();
+
     GottaCatchEmAllState initalState = new GottaCatchEmAllState(maze.startX, maze.startY, initialOrientation, hatchSteps, pokeCount, maze.pokemonCells);
 
-    pokemonGo = new GottaCatchEmAllProblem(initalState, operators, null, maze);
+    pokemonGo = new GottaCatchEmAllProblem(initalState, operators, stateSpace, maze);
   }
 
   public QingFun getQingFun(Strategy strategy) {
@@ -70,6 +74,6 @@ public class Game {
   public static void main(String[] args) {
     Game pokemon = new Game();
     pokemon.initialize();
-    pokemon.search(pokemon.pokemonGo.maze, Strategy.UC, false);
+    pokemon.search(pokemon.pokemonGo.maze, Strategy.ID, false);
   }
 }
