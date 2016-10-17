@@ -218,5 +218,36 @@ public class GottaCatchEmAllProblem extends Problem {
         nodes.addLast(children.get(minIndex));
       }
     }
+    else if (qingFun == QingFun.HEURISTIC_TWO) {
+    	for (Node n : children) {
+			// Insertion sort
+			((GottaCatchEmAllNode)n).heuristicCost = ((GottaCatchEmAllState)(n).state).pokemonLocs.size();
+			insertSorted(nodes,n);
+		}
+        
+      }
+    
+    else if (qingFun == QingFun.HEURISTIC_THREE) {
+    	for (Node n : children) {
+			// Insertion sort
+			((GottaCatchEmAllNode)n).heuristicCost = ((GottaCatchEmAllState)(n).state).hatchSteps;
+			insertSorted(nodes,n);
+		}
+        
+      }
+  }
+  
+  public void insertSorted(LinkedList<Node> nodes, Node n) {
+	  int i;
+	  for (i = 0; i < nodes.size(); i++) {
+			GottaCatchEmAllNode tempNode = (GottaCatchEmAllNode)nodes.get(i);
+			if (n.pathCost + ((GottaCatchEmAllNode)n).heuristicCost > tempNode.pathCost + tempNode.heuristicCost) {
+				continue;
+			}
+			else {
+				break;
+			}
+		}
+		nodes.add(i, n);
   }
 }

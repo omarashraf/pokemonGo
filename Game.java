@@ -65,6 +65,11 @@ public class Game {
       case ID: qingFun = QingFun.ENQUEUE_AT_FRONT_ID; break;
       case UC: qingFun = QingFun.ORDERED_INSERT; break;
       case GR1: qingFun = QingFun.HEURISTIC_ONE; break;
+      case GR2: qingFun = QingFun.HEURISTIC_TWO; break;
+      case GR3: qingFun = QingFun.HEURISTIC_THREE; break;
+      case AS1: qingFun = QingFun.HEURISTIC_ONE; break;
+      case AS2: qingFun = QingFun.HEURISTIC_TWO; break;
+      case AS3: qingFun = QingFun.HEURISTIC_THREE; break;
       default: qingFun = QingFun.ENQUEUE_AT_END;
     }
 
