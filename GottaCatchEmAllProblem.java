@@ -283,6 +283,7 @@ public class GottaCatchEmAllProblem extends Problem {
 				}
 			}
 
+<<<<<<< HEAD
 			else {
 				stateSpace.put(n.fingerprint, n.pathCost);
 				nodes.add(n);
@@ -336,6 +337,31 @@ public class GottaCatchEmAllProblem extends Problem {
 
 		MergeSort.mergeSort(nodes);
         
+=======
+        for (int j = 0; j < nodesHeuristicCosts.length; j++) {
+          if (nodesHeuristicCosts[i] < min) {
+            min = nodesHeuristicCosts[i];
+            minIndex = i;
+          }
+        nodesHeuristicCosts[minIndex] = 1000;
+        nodes.addLast(children.get(minIndex));
+        }
+      }
+      else if (qingFun == QingFun.HEURISTIC_TWO) {
+      	for (Node n : children) {
+    			// Insertion sort
+    			((GottaCatchEmAllNode)n).heuristicCost = ((GottaCatchEmAllState)(n).state).pokemonLocs.size();
+    			insertSorted(nodes,n);
+  		  } 
+      }
+    
+      else if (qingFun == QingFun.HEURISTIC_THREE) {
+        	for (Node n : children) {
+        	// Insertion sort
+        	((GottaCatchEmAllNode)n).heuristicCost = ((GottaCatchEmAllState)(n).state).hatchSteps;
+        	insertSorted(nodes,n);
+        }
+>>>>>>> 139d5b64f142ffbc0517537d3229679a9fd0282f
       }
   }
   
