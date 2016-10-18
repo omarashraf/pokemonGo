@@ -1,3 +1,4 @@
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 public class Game {
@@ -11,14 +12,15 @@ public class Game {
   public void search(Maze maze, Strategy strategy, boolean visualize) {
     QingFun qingFun = getQingFun(strategy);
 
-    GeneralSearchAlgorithm.generalSearch(pokemonGo, qingFun);
+    GeneralSearchAlgorithm.startSearch(pokemonGo, qingFun);
   }
 
   public void initialize() {
-    // Initialisation
+    // Maze
     Maze maze = new Maze();
     maze.genMaze();
 
+    // Orientation
     char initialOrientation = ' ';
     int randomOrientationIndex = (int) (Math.random() * ((3 - 0) + 1) + 0);
     switch (randomOrientationIndex) {
@@ -28,18 +30,31 @@ public class Game {
       case 3: initialOrientation = 'W'; break;
     }
 
+    //Operators
     Operator forward = new Operator('F');
     Operator right = new Operator('R');
     Operator left = new Operator('L');
 
     LinkedList<Operator> operators = new LinkedList<Operator>();
-    operators.add(forward);
+//    operators.add(forward);
+//    operators.add(right);
+//    operators.add(left);
     operators.add(right);
     operators.add(left);
+    operators.add(forward);
 
-    GottaCatchEmAllState initalState = new GottaCatchEmAllState(maze.startX, maze.startY, initialOrientation);
+    // Hatch steps
+    int hatchSteps = (int) (Math.random() * ((5 - 1) + 1) + 1);
 
-    pokemonGo = new GottaCatchEmAllProblem(initalState, operators, null, maze);
+    // Pokemons count
+    int pokeCount = maze.pokemonNumbers;
+
+    // Hashtable
+    Hashtable<String, Integer> stateSpace = new Hashtable<String, Integer>();
+
+    GottaCatchEmAllState initalState = new GottaCatchEmAllState(maze.startX, maze.startY, initialOrientation, hatchSteps, pokeCount, maze.pokemonCells);
+
+    pokemonGo = new GottaCatchEmAllProblem(initalState, operators, stateSpace, maze);
   }
 
   public QingFun getQingFun(Strategy strategy) {
@@ -50,6 +65,11 @@ public class Game {
       case ID: qingFun = QingFun.ENQUEUE_AT_FRONT_ID; break;
       case UC: qingFun = QingFun.ORDERED_INSERT; break;
       case GR1: qingFun = QingFun.HEURISTIC_ONE; break;
+      case GR2: qingFun = QingFun.HEURISTIC_TWO; break;
+      case GR3: qingFun = QingFun.HEURISTIC_THREE; break;
+      case AS1: qingFun = QingFun.HEURISTIC_ONE; break;
+      case AS2: qingFun = QingFun.HEURISTIC_TWO; break;
+      case AS3: qingFun = QingFun.HEURISTIC_THREE; break;
       default: qingFun = QingFun.ENQUEUE_AT_END;
     }
 
@@ -59,6 +79,6 @@ public class Game {
   public static void main(String[] args) {
     Game pokemon = new Game();
     pokemon.initialize();
-    pokemon.search(pokemon.pokemonGo.maze, Strategy.DF, false);
+    pokemon.search(pokemon.pokemonGo.maze, Strategy.ID, false);
   }
 }
