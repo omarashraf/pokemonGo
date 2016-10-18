@@ -192,47 +192,149 @@ public class GottaCatchEmAllProblem extends Problem {
         || qingFun == QingFun.ENQUEUE_AT_FRONT_ID || qingFun == QingFun.ORDERED_INSERT) {
       super.enqueue(nodes, children, qingFun);
     }
+    else if (qingFun == QingFun.Q_HEURISTIC_ONE) {
+        
+        for (Node n : children) {
+  			// Insertion sort
+    		
+  			n.heuristicCost = Math.abs(maze.endCell.x - ((GottaCatchEmAllState)n.state).x)
+               + Math.abs(maze.endCell.y
+                      - ((GottaCatchEmAllState)n.state).y);
+  			n.comparingFactor = 0;
+  			
+  			if (stateSpace.containsKey(n.fingerprint)) {
+  				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+  					stateSpace.remove(n.fingerprint);
+  					stateSpace.put(n.fingerprint, n.pathCost);
+  					nodes.add(n);
+  				}
+  			}
 
-    else if (qingFun == QingFun.HEURISTIC_ONE) {
-      int [] nodesHeuristicCosts = new int [children.size()];
+  			else {
+  				stateSpace.put(n.fingerprint, n.pathCost);
+  				nodes.add(n);
+  			}
 
-      for (int i = 0; i < children.size(); i++) {
-        nodesHeuristicCosts[i] = Math.abs(maze.endCell.x
-                                      - ((GottaCatchEmAllState)(children.get(i)).state).x)
-                               + Math.abs(maze.endCell.y
-                                      - ((GottaCatchEmAllState)(children.get(i)).state).y);
+        }
       }
+      else if (qingFun == QingFun.Q_HEURISTIC_TWO) {
+      	for (Node n : children) {
+  			// Insertion sort
+      		
+  			n.heuristicCost = ((GottaCatchEmAllState)(n).state).pokemonLocs.size();
+  			n.comparingFactor = 0;
+  			
+  			if (stateSpace.containsKey(n.fingerprint)) {
+  				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+  					stateSpace.remove(n.fingerprint);
+  					stateSpace.put(n.fingerprint, n.pathCost);
+  					nodes.add(n);
+  				}
+  			}
 
-      for (int i = 0; i < children.size(); i++) {
-        int min = 1000;
-        int minIndex = -1;
+  			else {
+  				stateSpace.put(n.fingerprint, n.pathCost);
+  				nodes.add(n);
+  			}
+  		}
 
-        for (int j = 0; j < nodesHeuristicCosts.length; j++) {
-          if (nodesHeuristicCosts[i] < min) {
-            min = nodesHeuristicCosts[i];
-            minIndex = i;
-          }
+  		MergeSort.mergeSort(nodes);
+          
+        }
+      
+      else if (qingFun == QingFun.Q_HEURISTIC_THREE) {
+      	for (Node n : children) {
+  			// Insertion sort
+  			n.heuristicCost = ((GottaCatchEmAllState)(n).state).hatchSteps;
+  			n.comparingFactor = 0;
+  			if (stateSpace.containsKey(n.fingerprint)) {
+  				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+  					stateSpace.remove(n.fingerprint);
+  					stateSpace.put(n.fingerprint, n.pathCost);
+  					nodes.add(n);
+  				}
+  			}
+
+  			else {
+  				stateSpace.put(n.fingerprint, n.pathCost);
+  				nodes.add(n);
+  			}
+  		}
+
+  		MergeSort.mergeSort(nodes);
+          
         }
 
-        nodesHeuristicCosts[minIndex] = 1000;
-        nodes.addLast(children.get(minIndex));
+    else if (qingFun == QingFun.A_HEURISTIC_ONE) {
+      
+      for (Node n : children) {
+			// Insertion sort
+  		
+			n.heuristicCost = Math.abs(maze.endCell.x - ((GottaCatchEmAllState)n.state).x)
+             + Math.abs(maze.endCell.y
+                    - ((GottaCatchEmAllState)n.state).y);
+			n.comparingFactor = 1;
+			
+			if (stateSpace.containsKey(n.fingerprint)) {
+				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+					stateSpace.remove(n.fingerprint);
+					stateSpace.put(n.fingerprint, n.pathCost);
+					nodes.add(n);
+				}
+			}
+
+			else {
+				stateSpace.put(n.fingerprint, n.pathCost);
+				nodes.add(n);
+			}
+
       }
     }
-    else if (qingFun == QingFun.HEURISTIC_TWO) {
+    else if (qingFun == QingFun.A_HEURISTIC_TWO) {
     	for (Node n : children) {
 			// Insertion sort
-			((GottaCatchEmAllNode)n).heuristicCost = ((GottaCatchEmAllState)(n).state).pokemonLocs.size();
-			insertSorted(nodes,n);
+    		
+			n.heuristicCost = ((GottaCatchEmAllState)(n).state).pokemonLocs.size();
+			n.comparingFactor = 1;
+			
+			if (stateSpace.containsKey(n.fingerprint)) {
+				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+					stateSpace.remove(n.fingerprint);
+					stateSpace.put(n.fingerprint, n.pathCost);
+					nodes.add(n);
+				}
+			}
+
+			else {
+				stateSpace.put(n.fingerprint, n.pathCost);
+				nodes.add(n);
+			}
 		}
+
+		MergeSort.mergeSort(nodes);
         
       }
     
-    else if (qingFun == QingFun.HEURISTIC_THREE) {
+    else if (qingFun == QingFun.A_HEURISTIC_THREE) {
     	for (Node n : children) {
 			// Insertion sort
-			((GottaCatchEmAllNode)n).heuristicCost = ((GottaCatchEmAllState)(n).state).hatchSteps;
-			insertSorted(nodes,n);
+			n.heuristicCost = ((GottaCatchEmAllState)(n).state).hatchSteps;
+			n.comparingFactor = 1;
+			if (stateSpace.containsKey(n.fingerprint)) {
+				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+					stateSpace.remove(n.fingerprint);
+					stateSpace.put(n.fingerprint, n.pathCost);
+					nodes.add(n);
+				}
+			}
+
+			else {
+				stateSpace.put(n.fingerprint, n.pathCost);
+				nodes.add(n);
+			}
 		}
+
+		MergeSort.mergeSort(nodes);
         
       }
   }
@@ -240,8 +342,8 @@ public class GottaCatchEmAllProblem extends Problem {
   public void insertSorted(LinkedList<Node> nodes, Node n) {
 	  int i;
 	  for (i = 0; i < nodes.size(); i++) {
-			GottaCatchEmAllNode tempNode = (GottaCatchEmAllNode)nodes.get(i);
-			if (n.pathCost + ((GottaCatchEmAllNode)n).heuristicCost > tempNode.pathCost + tempNode.heuristicCost) {
+			Node tempNode = nodes.get(i);
+			if (n.pathCost + (n).heuristicCost > tempNode.pathCost + tempNode.heuristicCost) {
 				continue;
 			}
 			else {

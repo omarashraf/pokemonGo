@@ -8,7 +8,8 @@ public class Node implements Comparable<Node> {
 	public char operator;
 	public State state;
 	public String fingerprint;
-
+	public int heuristicCost;
+	public int comparingFactor;
 	public Node() {
 
 	}
@@ -19,7 +20,8 @@ public class Node implements Comparable<Node> {
 		this.pathCost = pathCost;
 		this.operator = operator;
 		this.state = state;
-
+		heuristicCost = 0;
+		comparingFactor = -1;
 		setFingerprint();
 	}
 
@@ -35,7 +37,17 @@ public class Node implements Comparable<Node> {
 	}
 
 	public int compareTo(Node other) { // Will be modified for heuristics
-		if (this.pathCost > other.pathCost) return 1;
-		else return -1;
+		if (other.comparingFactor == -1) {
+			if (this.pathCost > other.pathCost) return 1;
+			else return -1;
+		} 
+		else if (other.comparingFactor == 0) {
+			if (this.heuristicCost > other.heuristicCost) return 1;
+			else return -1;
+		}
+		else {
+			if (this.pathCost + this.heuristicCost > other.pathCost + other.heuristicCost) return 1;
+			else return -1;
+		}
 	}
 }

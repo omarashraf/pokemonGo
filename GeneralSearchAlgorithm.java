@@ -5,7 +5,7 @@ public class GeneralSearchAlgorithm {
 
 	public static int depth;
 	public static int depthSoFar;
-
+	static int expansionNumbers = 0;
 	public static void startSearch(Problem problem, QingFun qingFun) {
 		if (qingFun == QingFun.ENQUEUE_AT_FRONT_ID) {
 			for (depth = 0; depth < Double.POSITIVE_INFINITY; depth++) {
@@ -66,5 +66,8 @@ public class GeneralSearchAlgorithm {
 
 		// Add the children to the queue according to the QingFun
 		problem.enqueue(nodes, children, qingFun);
+		expansionNumbers++;
+		System.out.println("Expansion Numbers: " + expansionNumbers);
+		
 	}
 }

@@ -64,12 +64,12 @@ public class Game {
       case DF: qingFun = QingFun.ENQUEUE_AT_FRONT_DF; break;
       case ID: qingFun = QingFun.ENQUEUE_AT_FRONT_ID; break;
       case UC: qingFun = QingFun.ORDERED_INSERT; break;
-      case GR1: qingFun = QingFun.HEURISTIC_ONE; break;
-      case GR2: qingFun = QingFun.HEURISTIC_TWO; break;
-      case GR3: qingFun = QingFun.HEURISTIC_THREE; break;
-      case AS1: qingFun = QingFun.HEURISTIC_ONE; break;
-      case AS2: qingFun = QingFun.HEURISTIC_TWO; break;
-      case AS3: qingFun = QingFun.HEURISTIC_THREE; break;
+      case GR1: qingFun = QingFun.Q_HEURISTIC_ONE; break;
+      case GR2: qingFun = QingFun.Q_HEURISTIC_TWO; break;
+      case GR3: qingFun = QingFun.Q_HEURISTIC_THREE; break;
+      case AS1: qingFun = QingFun.A_HEURISTIC_ONE; break;
+      case AS2: qingFun = QingFun.A_HEURISTIC_TWO; break;
+      case AS3: qingFun = QingFun.A_HEURISTIC_THREE; break;
       default: qingFun = QingFun.ENQUEUE_AT_END;
     }
 
@@ -79,6 +79,6 @@ public class Game {
   public static void main(String[] args) {
     Game pokemon = new Game();
     pokemon.initialize();
-    pokemon.search(pokemon.pokemonGo.maze, Strategy.ID, false);
+    pokemon.search(pokemon.pokemonGo.maze, Strategy.GR3, false);
   }
 }
