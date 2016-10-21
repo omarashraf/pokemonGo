@@ -79,6 +79,6 @@ public class Game {
   public static void main(String[] args) {
     Game pokemon = new Game();
     pokemon.initialize();
-    pokemon.search(pokemon.pokemonGo.maze, Strategy.AS2, false);
+    pokemon.search(pokemon.pokemonGo.maze, Strategy.AS4, false);
   }
 }
