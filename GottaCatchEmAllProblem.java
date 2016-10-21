@@ -220,8 +220,23 @@ public class GottaCatchEmAllProblem extends Problem {
       else if (qingFun == QingFun.Q_HEURISTIC_TWO) {
       	for (Node n : children) {
   			// Insertion sort
+      		int distanceToNearestPokemon = 0;
+      		//Cell nearestPokemonCell;
       		
-  			n.heuristicCost = ((GottaCatchEmAllState)(n).state).pokemonLocs.size();
+      		for (Cell cell : ((GottaCatchEmAllState)(n).state).pokemonLocs) {
+      	      if ((Math.abs(cell.x - ((GottaCatchEmAllState)n.state).x)
+      	            + Math.abs(cell.y
+      	                   - ((GottaCatchEmAllState)n.state).y)) < distanceToNearestPokemon) {
+      	    	  distanceToNearestPokemon = (Math.abs(cell.x - ((GottaCatchEmAllState)n.state).x)
+            	            + Math.abs(cell.y
+               	                   - ((GottaCatchEmAllState)n.state).y));
+      	    	//nearestPokemonCell = cell;
+      	      
+      	      }
+      	    }
+      		
+      		
+  			n.heuristicCost = distanceToNearestPokemon;
   			n.comparingFactor = 0;
   			
   			if (stateSpace.containsKey(n.fingerprint)) {
@@ -264,6 +279,8 @@ public class GottaCatchEmAllProblem extends Problem {
   		MergeSort.mergeSort(nodes);
           
         }
+    
+      
 
     else if (qingFun == QingFun.A_HEURISTIC_ONE) {
       
@@ -292,30 +309,54 @@ public class GottaCatchEmAllProblem extends Problem {
     }
     else if (qingFun == QingFun.A_HEURISTIC_TWO) {
     	for (Node n : children) {
-			// Insertion sort
-    		
-			n.heuristicCost = ((GottaCatchEmAllState)(n).state).pokemonLocs.size();
-			n.comparingFactor = 1;
-			
-			if (stateSpace.containsKey(n.fingerprint)) {
-				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
-					stateSpace.remove(n.fingerprint);
-					stateSpace.put(n.fingerprint, n.pathCost);
-					nodes.add(n);
-				}
-			}
+  			// Insertion sort
+      		int distanceToNearestPokemon = 0;
+      		if (!((GottaCatchEmAllState)(n).state).pokemonLocs.isEmpty()) 
+      		{
+      		
+      		for (Cell cell : ((GottaCatchEmAllState)(n).state).pokemonLocs) 
+      		{
+      	      if ((Math.abs(cell.x - ((GottaCatchEmAllState)n.state).x)
+      	            + Math.abs(cell.y
+      	                   - ((GottaCatchEmAllState)n.state).y)) < distanceToNearestPokemon) {
+      	    	  distanceToNearestPokemon = (Math.abs(cell.x - ((GottaCatchEmAllState)n.state).x)
+            	            + Math.abs(cell.y
+               	                   - ((GottaCatchEmAllState)n.state).y));
+      	    	//nearestPokemonCell = cell;
+      	      
+      	      }
+      	    }
+      		}
+      		else 
+      		{
+      			distanceToNearestPokemon = Math.abs(maze.endCell.x - ((GottaCatchEmAllState)n.state).x)
+      		             + Math.abs(maze.endCell.y
+      		                    - ((GottaCatchEmAllState)n.state).y);
+      		}
+      		
+      		
+  			n.heuristicCost = distanceToNearestPokemon;
+  			n.comparingFactor = 1;
+  			
+  			if (stateSpace.containsKey(n.fingerprint)) {
+  				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+  					stateSpace.remove(n.fingerprint);
+  					stateSpace.put(n.fingerprint, n.pathCost);
+  					nodes.add(n);
+  				}
+  			}
 
-			else {
-				stateSpace.put(n.fingerprint, n.pathCost);
-				nodes.add(n);
-			}
-		}
+  			else {
+  				stateSpace.put(n.fingerprint, n.pathCost);
+  				nodes.add(n);
+  			}
+  		}
 
 		MergeSort.mergeSort(nodes);
         
       }
     
-    else if (qingFun == QingFun.A_HEURISTIC_THREE) {
+    /*else if (qingFun == QingFun.A_HEURISTIC_THREE) {
     	for (Node n : children) {
 			// Insertion sort
 			n.heuristicCost = ((GottaCatchEmAllState)(n).state).hatchSteps;
@@ -335,6 +376,48 @@ public class GottaCatchEmAllProblem extends Problem {
 		}
 
 		MergeSort.mergeSort(nodes);
+      }*/
+    
+    else if (qingFun == QingFun.A_HEURISTIC_THREE) {
+    	for (Node n : children) {
+  			// Insertion sort
+      		int distanceToFarestPokemon = 0;
+      		//Cell nearestPokemonCell;
+      		
+      		for (Cell cell : ((GottaCatchEmAllState)(n).state).pokemonLocs) {
+      	      if ((Math.abs(cell.x - ((GottaCatchEmAllState)n.state).x)
+      	            + Math.abs(cell.y
+      	                   - ((GottaCatchEmAllState)n.state).y)) > distanceToFarestPokemon) {
+      	    	distanceToFarestPokemon = (Math.abs(cell.x - ((GottaCatchEmAllState)n.state).x)
+            	            + Math.abs(cell.y
+               	                   - ((GottaCatchEmAllState)n.state).y));
+      	    	//nearestPokemonCell = cell;
+      	      
+      	      }
+      	    }
+      		
+      		
+  			n.heuristicCost = ((GottaCatchEmAllState)(n).state).hatchSteps - distanceToFarestPokemon + Math.abs(maze.endCell.x - ((GottaCatchEmAllState)n.state).x)
+             + Math.abs(maze.endCell.y
+                    - ((GottaCatchEmAllState)n.state).y);;
+  			n.comparingFactor = 1;
+  			
+  			if (stateSpace.containsKey(n.fingerprint)) {
+  				if (stateSpace.get(n.fingerprint).intValue() > n.pathCost) {
+  					stateSpace.remove(n.fingerprint);
+  					stateSpace.put(n.fingerprint, n.pathCost);
+  					nodes.add(n);
+  				}
+  			}
+
+  			else {
+  				stateSpace.put(n.fingerprint, n.pathCost);
+  				nodes.add(n);
+  			}
+  		}
+
+		MergeSort.mergeSort(nodes);
+        
       }
   }
   
